@@ -2,7 +2,7 @@
 import prisma from '../prisma';
 import { Prisma, cancionesFavoritas } from '../../prisma/generated/client/index';
 import { BasicResponse } from '../interfaces/usuario';
-import { handlePrismaError, handleServerError } from "./usaurio";
+import { handlePrismaError, handleServerError } from "./usuario";
 import { PostRegistrarFavoritoRequest } from '../interfaces';
 
 

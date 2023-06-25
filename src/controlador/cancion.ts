@@ -1,12 +1,12 @@
 import { Response } from "express";
 import { Prisma, cancion } from "../../prisma/generated/client";
-import { BasicResponse, GetUsuariosRequest } from "../interfaces";
+import { BasicResponse } from "../interfaces";
 import { GetCancionesRequest, PostCancionRequest } from "../interfaces/cancion";
 import prisma from "../prisma";
-import { handlePrismaError, handleServerError } from "./usaurio";
+import { gestionarErrorPrisma, manejarErrorInterno } from "./usuario";
 
 
-export const getCanciones = async (req: GetCancionesRequest, res: Response): Promise<BasicResponse<cancion[]>> => {
+export const obtenerCanciones = async (req: GetCancionesRequest, res: Response): Promise<BasicResponse<cancion[]>> => {
     const canciones = await prisma.cancion.findMany({
         where: {
             titulo: {
@@ -21,7 +21,7 @@ export const getCanciones = async (req: GetCancionesRequest, res: Response): Pro
     }
 }
 
-export const postCancion = async (req: PostCancionRequest, res: Response): Promise<BasicResponse<cancion>> => {
+export const registrarCancion = async (req: PostCancionRequest, res: Response): Promise<BasicResponse<cancion>> => {
 
     try {
         const { titulo, duracion, artista } = req.body;
@@ -40,8 +40,8 @@ export const postCancion = async (req: PostCancionRequest, res: Response): Promi
 
     } catch (e: any) {
         if (e instanceof Prisma.PrismaClientKnownRequestError) {
-            return handlePrismaError(e);
+            return gestionarErrorPrisma(e);
         }
-        return handleServerError(e);
+        return manejarErrorInterno(e);
     }
 };

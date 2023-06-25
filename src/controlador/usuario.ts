@@ -4,7 +4,7 @@ import { Prisma, usuario } from "../../prisma/generated/client";
 import prisma from "../prisma";
 import { cancion } from '../../prisma/generated/client/index';
 
-export const handlePrismaError = (e: Prisma.PrismaClientKnownRequestError): BasicResponse<any> => {
+export const gestionarErrorPrisma = (e: Prisma.PrismaClientKnownRequestError): BasicResponse<any> => {
   return {
     success: false,
     error: {
@@ -15,7 +15,7 @@ export const handlePrismaError = (e: Prisma.PrismaClientKnownRequestError): Basi
   };
 };
 
-export const handleServerError = (e: any): BasicResponse<any> => {
+export const manejarErrorInterno = (e: any): BasicResponse<any> => {
   const errorMessage = e.message.replace(/\n/g, ' ');
   return {
     success: false,
@@ -67,9 +67,9 @@ export const obtenerUsuarios = async (req: GetUsuariosRequest, res: Response): P
     };
   } catch (e: any) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
-      return handlePrismaError(e);
+      return gestionarErrorPrisma(e);
     }
-    return handleServerError(e);
+    return manejarErrorInterno(e);
   }
 };
 
@@ -107,9 +107,9 @@ export const obtenerUsuario = async (req: GetUsuarioRequest, res: Response): Pro
     };
   } catch (e: any) {
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
-      return handlePrismaError(e);
+      return gestionarErrorPrisma(e);
     }
-    return handleServerError(e);
+    return manejarErrorInterno(e);
   }
 };
 
@@ -137,9 +137,9 @@ export const crearUsuario = async (req: PostUsuarioRequest, res: Response): Prom
     }
     catch (e: any) {
         if (e instanceof Prisma.PrismaClientKnownRequestError) {
-            return handlePrismaError(e);
+            return gestionarErrorPrisma(e);
         }
-        return handleServerError(e);
+        return manejarErrorInterno(e);
     }
 };
 
@@ -166,9 +166,9 @@ export const actualizarUsuario = async (req: PutUsuarioRequest, res: Response): 
     }
     catch (e: any) {
         if (e instanceof Prisma.PrismaClientKnownRequestError) {
-            return handlePrismaError(e);
+            return gestionarErrorPrisma(e);
         }
-        return handleServerError(e);
+        return manejarErrorInterno(e);
     }
 }
 
@@ -205,8 +205,8 @@ export const eliminarUsuario = async (req: GetUsuarioRequest, res: Response): Pr
     }
     catch (e: any) {
         if (e instanceof Prisma.PrismaClientKnownRequestError) {
-            return handlePrismaError(e);
+            return gestionarErrorPrisma(e);
         }
-        return handleServerError(e);
+        return manejarErrorInterno(e);
     }
 }

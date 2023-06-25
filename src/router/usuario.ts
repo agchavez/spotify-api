@@ -1,7 +1,5 @@
-import { Request, Response, Router } from "express";
-import prisma from "../prisma";
-import { usuario } from "../../prisma/generated/client";
-import { actualizarUsuario, crearUsuario, eliminarUsuario, obtenerUsuario, obtenerUsuarios } from "../controlador/usaurio";
+import { Response, Router } from "express";
+import { actualizarUsuario, crearUsuario, eliminarUsuario, obtenerUsuario, obtenerUsuarios } from "../controlador/usuario";
 import { GetUsuarioRequest, GetUsuariosRequest, PostUsuarioRequest, PutUsuarioRequest } from "../interfaces";
 
 const router = Router();
@@ -21,19 +19,21 @@ router.get('/:id', async (req: GetUsuarioRequest, res: Response) => {
         .json(resp.success ? resp.data : resp.error); 
 });
 
+// Ruta para registrar un usuario
 router.post('/', async (req: PostUsuarioRequest, res: Response) => {
     const resp = await crearUsuario(req, res);
     res.status(resp.success ? 200 :  resp.error!.codigo)
-        .json(resp.success ? resp.data : resp.error)
-        ;
+        .json(resp.success ? resp.data : resp.error);
 });
 
+// Ruta para actualizar un usuario
 router.put('/:id', async (req: PutUsuarioRequest, res: Response) => {
     const resp = await actualizarUsuario(req, res);
     res.status(resp.success ? 200 : resp.error!.codigo)
         .json(resp.success ? resp.data : resp.error);
 });
 
+// Ruta para eliminar un usuario
 router.delete('/:id', async (req: GetUsuarioRequest, res: Response) => {
     const resp = await eliminarUsuario(req, res);
     res.status(resp.success ? 200 :  resp.error!.codigo)

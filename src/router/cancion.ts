@@ -1,31 +1,14 @@
-import { NextFunction, Request, Response, Router } from "express";
+import { Response, Router } from "express";
 import { GetCancionesRequest, PostCancionRequest, PostRegistrarFavoritoRequest } from "../interfaces/cancion";
-import { getCanciones, postCancion } from "../controlador/cancion";
+import {  obtenerCanciones, registrarCancion } from "../controlador/cancion";
 import { registrarCancionFavorita } from "../controlador/favorito";
-import { ValidationChain, validationResult, checkSchema, checkExact, body } from "express-validator";
-
-
-const validateMiddleware = (validations: ValidationChain[]) => {
-    return async (req: Request<any, any, any, any, any>, res: Response, next: NextFunction) => {
-      let isErrored = false;
-      for (let validation of validations) {
-        const result = await validation.run(req);
-        if (result.array().length) isErrored = true;
-      }
-  
-      const errors = validationResult(req);
-      if (errors.isEmpty() && !isErrored) {
-        return next();
-      }
-  
-      res.status(400).json({ errors: errors.array() });
-    };
-  };
+import { checkSchema, body } from "express-validator";
+import { validarCampos } from "../middlewares/validaciones";
 
 
 const router = Router();
 
-router.post('/favorito',validateMiddleware(checkSchema({
+router.post('/favorito',validarCampos(checkSchema({
     cancionId: {
         in: ['body'],
         isInt: true,
@@ -43,21 +26,17 @@ router.post('/favorito',validateMiddleware(checkSchema({
     res.json(resp.success ? resp.data : resp.error).status(resp.error ? 400 : resp.error!.codigo);
 });
 
-
-
-
-
 router.get('/', 
-    validateMiddleware(
+    validarCampos(
         [body('email').isEmail(), body('password',
         "La contraseña debe tener al menos 8 caracteres"
         ).isLength({ min: 8 })]), async (req: GetCancionesRequest, res: Response) => {
-    const resp = await getCanciones(req, res);
+    const resp = await obtenerCanciones(req, res);
     res.json(resp.success ? resp.data : resp.error).status(resp.success ? 200 : 400);
 });
 
 router.post('/', async (req: PostCancionRequest, res: Response) => {
-    const resp = await postCancion(req, res);
+    const resp = await registrarCancion(req, res);
     res.json(resp.success ? resp.data : resp.error).status(resp.success ? 200 : 400);
     
 });
