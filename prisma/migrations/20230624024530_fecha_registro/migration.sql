@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "CancionesFavoritas" ADD COLUMN     "FechaRegistro" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;
