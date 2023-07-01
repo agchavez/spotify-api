@@ -52,7 +52,15 @@ export const obtenerUsuarios = async (req: GetUsuariosRequest, res: Response): P
       prisma.usuario.findMany({
         take: parseInt(limit || '10'),
         skip: parseInt(offset || '0'),
-      }),
+        include: {
+          favoritas: {
+            include: {
+              cancion: true,
+            }
+          }
+        }
+      })
+      ,
       prisma.usuario.count()
     ]);
 

@@ -149,7 +149,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "E:\\Farinter\\tutoria\\spotify-api\\prisma\\generated\\store",
+      "value": "E:\\Farinter\\tutoria\\spotify-api\\prisma\\generated\\tienda",
       "fromEnvVar": null
     },
     "config": {
@@ -184,7 +184,7 @@ const fs = require('fs')
 
 config.dirname = __dirname
 if (!fs.existsSync(path.join(__dirname, 'schema.prisma'))) {
-  config.dirname = path.join(process.cwd(), "prisma/generated/store")
+  config.dirname = path.join(process.cwd(), "prisma/generated/tienda")
   config.isBundled = true
 }
 
@@ -208,6 +208,6 @@ exports.PrismaClient = PrismaClient
 Object.assign(exports, Prisma)
 
 path.join(__dirname, "query_engine-windows.dll.node");
-path.join(process.cwd(), "prisma/generated/store/query_engine-windows.dll.node")
+path.join(process.cwd(), "prisma/generated/tienda/query_engine-windows.dll.node")
 path.join(__dirname, "schema.prisma");
-path.join(process.cwd(), "prisma/generated/store/schema.prisma")
+path.join(process.cwd(), "prisma/generated/tienda/schema.prisma")
