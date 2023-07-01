@@ -2,7 +2,7 @@
 import prisma from '../prisma';
 import { Prisma, cancionesFavoritas } from '../../prisma/generated/client/index';
 import { BasicResponse } from '../interfaces/usuario';
-import { handlePrismaError, handleServerError } from "./usuario";
+import { gestionarErrorPrisma, manejarErrorInterno } from "./usuario";
 import { PostRegistrarFavoritoRequest } from '../interfaces';
 
 
@@ -22,8 +22,8 @@ export const registrarCancionFavorita = async (req: PostRegistrarFavoritoRequest
         
     } catch (e: any) {
         if (e instanceof Prisma.PrismaClientKnownRequestError) {
-            return handlePrismaError(e);
+            return gestionarErrorPrisma(e);
         }
-        return handleServerError(e);
+        return manejarErrorInterno(e);
     }
 };
