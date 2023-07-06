@@ -42,6 +42,21 @@ crear un archivo .env con las variables de entorno en base al archivo .env.templ
     npm install
 ```
 
+### Aplicar las migraciones 
+```bash
+    npx prisma migrate deploy
+```
+
+### Generar el cliente de Prisma
+```bash
+    npx prisma generate
+```
+### Generar el cliente de Prisma para un schema en especifico
+
+```bash
+    npx prisma generate --schema=./prisma/tienda.prisma
+```
+
 ### Ejecución
 ```bash
     npm run dev
